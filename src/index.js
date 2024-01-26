@@ -5,6 +5,8 @@ import {
     onSnapshot,
     addDoc,
     deleteDoc,
+    getDoc,
+    updateDoc,
     doc,
     query,
     where,
@@ -68,4 +70,28 @@ deleteBookForm.addEventListener("submit", (e) => {
     deleteDoc(docRef).then(() => {
         deleteBookForm.reset();
     });
+});
+
+// get single doc
+const docRef = doc(db, "books", "6LN7BnntsGCLBLSAu8PF");
+
+onSnapshot(docRef, (doc) => {
+    console.log(doc.data(), doc.id);
+});
+
+// update documents
+const updateForm = document.querySelector(".update");
+updateForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const docRef = doc(db, "books", updateForm.id.value);
+    updateDoc(docRef, {
+        title: "updated title",
+    })
+        .then((doc) => {
+            updateForm.reset();
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 });
